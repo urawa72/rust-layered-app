@@ -1,0 +1,16 @@
+[package]
+name = "book-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "book-app"
+path = "src/bin.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+book-domain = { path = "../book-domain" }
+book-usecase = { path = "../book-usecase" }
+book-handler = { path = "../book-adapter/book-handler" }
+book-database = { path = "../book-adapter/book-database" }
