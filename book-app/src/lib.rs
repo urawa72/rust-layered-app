@@ -6,9 +6,9 @@ pub struct AdapterImpl {
 }
 
 impl Adapter for AdapterImpl {
-    type R = BookRepositoryImpl;
+    type A = BookRepositoryImpl;
 
-    fn repository(&self) -> Self::R {
-        self.repo.clone()
+    fn repository(&self) -> &Self::A {
+        &self.repo
     }
 }

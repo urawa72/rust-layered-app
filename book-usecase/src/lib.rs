@@ -2,10 +2,7 @@ pub mod get_book;
 
 use book_domain::repository::BookRepository;
 
-pub struct BookUsecase<A>
-where
-    A: Adapter,
-{
+pub struct BookUsecase<A> {
     pub adapter: A,
 }
 
@@ -16,7 +13,7 @@ impl<A: Adapter> BookUsecase<A> {
 }
 
 pub trait Adapter {
-    type R: BookRepository;
+    type A: BookRepository;
 
-    fn repository(&self) -> Self::R;
+    fn repository(&self) -> &Self::A;
 }
