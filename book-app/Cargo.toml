@@ -14,3 +14,4 @@ book-domain = { path = "../book-domain" }
 book-usecase = { path = "../book-usecase" }
 book-handler = { path = "../book-adapter/book-handler" }
 book-database = { path = "../book-adapter/book-database" }
+dotenv = "0.15.0"

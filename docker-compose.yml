@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 15432:5432
+    environment:
+      POSTGRES_USER=postgres
+      POSTGRES_PASSWORD=password
+      POSTGRES_DB=main
+      DATABASE_HOST=localhost
+    # volumes:
+    #   # execute init sql
+    #   - ./init_db:/docker-entrypoint-initdb.d
+    #   # retain data at local machine
+    #   - ./tmp-pgdata:/var/lib/postgresql/data
