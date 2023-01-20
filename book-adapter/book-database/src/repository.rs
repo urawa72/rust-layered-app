@@ -15,6 +15,6 @@ impl BookRepositoryImpl {
 
 impl BookRepository for BookRepositoryImpl {
     fn get(&self) {
-        println!("hello hello hello")
+        println!("hello hello hello");
     }
 }

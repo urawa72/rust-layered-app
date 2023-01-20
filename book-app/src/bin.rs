@@ -19,14 +19,18 @@ async fn main() -> std::io::Result<()> {
 
     // Run server
     println!("Listening 127.0.0.1:8080");
-    HttpServer::new(move || App::new().app_data(usecase.clone()).service(hello))
-        .bind(("127.0.0.1", 8080))?
-        .run()
-        .await
+    HttpServer::new(move || {
+        App::new()
+            .app_data(web::Data::new(usecase.clone()))
+            .service(hello)
+    })
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
 }
 
 #[get("/hello")]
 async fn hello(usecase: web::Data<BookUsecase<AdapterImpl>>) -> impl Responder {
-    usecase.get_book();
-    "end".to_string()
+    usecase.get_book().await;
+    "hello".to_string()
 }

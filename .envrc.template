@@ -1,2 +1,1 @@
-export RUST_LOG=debug
 export DATABASE_URL=postgres://postgres:password@localhost:15432/main
