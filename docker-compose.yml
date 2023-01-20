@@ -6,10 +6,10 @@ services:
     ports:
       - 15432:5432
     environment:
-      POSTGRES_USER=postgres
-      POSTGRES_PASSWORD=password
-      POSTGRES_DB=main
-      DATABASE_HOST=localhost
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=main
+      - DATABASE_HOST=localhost
     # volumes:
     #   # execute init sql
     #   - ./init_db:/docker-entrypoint-initdb.d

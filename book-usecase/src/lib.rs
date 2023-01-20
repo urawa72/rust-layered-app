@@ -2,6 +2,7 @@ pub mod get_book;
 
 use book_domain::repository::BookRepository;
 
+#[derive(Clone, Debug)]
 pub struct BookUsecase<A> {
     pub adapter: A,
 }

@@ -1,6 +1,7 @@
 use book_database::repository::BookRepositoryImpl;
 use book_usecase::Adapter;
 
+#[derive(Clone, Debug)]
 pub struct AdapterImpl {
     pub repo: BookRepositoryImpl,
 }

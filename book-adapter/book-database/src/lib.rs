@@ -1,2 +1,4 @@
 pub mod repository;
-pub mod setup;
+
+mod setup;
+pub use setup::{setup, Db};
