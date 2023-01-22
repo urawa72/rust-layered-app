@@ -309,6 +309,7 @@ version = "0.1.0"
 name = "book-handler"
 version = "0.1.0"
 dependencies = [
+ "actix-web",
  "book-usecase",
 ]
 
