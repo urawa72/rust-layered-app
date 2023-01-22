@@ -31,6 +31,5 @@ async fn main() -> std::io::Result<()> {
 
 #[get("/hello")]
 async fn hello(usecase: web::Data<BookUsecase<AdapterImpl>>) -> impl Responder {
-    usecase.get_book().await;
-    "hello".to_string()
+    usecase.get_book().await
 }

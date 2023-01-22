@@ -1,3 +1,3 @@
 pub trait BookRepository {
-    fn get(&self);
+    fn get(&self) -> String;
 }
