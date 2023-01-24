@@ -2,7 +2,7 @@ use actix_web::{web, App, HttpServer};
 
 use book_app::config::Config;
 use book_database::{repository::BookRepositoryImpl, setup};
-use book_usecase::{BookServiceImpl, HaveBookRepository};
+use book_usecase::{HaveBookRepository, HaveBookService};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -14,15 +14,13 @@ async fn main() -> std::io::Result<()> {
         .await
         .expect("Failed to setup database");
     let repo = BookRepositoryImpl::new(db);
-    let book_service = BookServiceImpl {
-        service: DummyService { repo },
-    };
+    let service = DummyService { repo };
 
     // Run server
     println!("Listening 127.0.0.1:8080");
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::new(book_service.clone()))
+            .app_data(web::Data::new(service.clone()))
             .service(book_handler::hello)
     })
     .bind(("127.0.0.1", 8080))?
@@ -39,5 +37,12 @@ impl HaveBookRepository for DummyService {
     type R = BookRepositoryImpl;
     fn repository(&self) -> Self::R {
         self.repo.clone()
+    }
+}
+
+impl HaveBookService for DummyService {
+    type S = Self;
+    fn book_service(&self) -> Self::S {
+        self.clone()
     }
 }
