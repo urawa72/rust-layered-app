@@ -1,19 +1,21 @@
 use book_domain::repository::BookRepository;
 
-pub trait HaveBookRepository {
-    type R: BookRepository;
-    fn repository(&self) -> Self::R;
+pub struct BookUsecase {
+    pub adapters: Box<dyn Adapters>,
 }
 
-pub trait BookService: HaveBookRepository {
-    fn get_book(&self) -> String {
-        self.repository().get()
+impl BookUsecase {
+    pub fn new(adapters: impl Adapters + 'static) -> Self {
+        BookUsecase {
+            adapters: Box::new(adapters),
+        }
+    }
+
+    pub fn hello(&self) -> String {
+        self.adapters.repository().get()
     }
 }
 
-impl<T: HaveBookRepository> BookService for T {}
-
-pub trait HaveBookService {
-    type S: BookService;
-    fn book_service(&self) -> Self::S;
+pub trait Adapters: Sync + Send {
+    fn repository(&self) -> Box<dyn BookRepository>;
 }

@@ -1,9 +1,9 @@
-use actix_web::{get, /* web, */ Responder};
+use std::sync::Arc;
+use actix_web::{get, web, Responder};
 
-// use book_usecase::BookUsecase;
+use book_usecase::BookUsecase;
 
 #[get("/hello")]
-async fn hello(/*usecase: web::Data<BookUsecase<AdapterImpl>>*/) -> impl Responder {
-    // usecase.get_book().await
-    "hello"
+async fn hello(usecase: web::Data<Arc<BookUsecase>>) -> impl Responder {
+    usecase.hello()
 }
