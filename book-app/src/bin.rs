@@ -1,8 +1,10 @@
-use actix_web::{get, web, App, HttpServer, Responder};
+use std::sync::Arc;
 
-use book_app::{adapters::AdapterImpl, config::Config};
+use actix_web::{web, App, HttpServer};
+
+use book_app::config::Config;
 use book_database::{repository::BookRepositoryImpl, setup};
-use book_usecase::BookUsecase;
+use book_usecase::{Adapters, BookUsecase};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -14,22 +16,28 @@ async fn main() -> std::io::Result<()> {
         .await
         .expect("Failed to setup database");
     let repo = BookRepositoryImpl::new(db);
-    let adapter = AdapterImpl { repo };
-    let usecase = BookUsecase::new(adapter);
+    let adapters = AdaptersImpl { repo };
+    let usecase = Arc::new(BookUsecase::new(adapters));
 
     // Run server
     println!("Listening 127.0.0.1:8080");
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(usecase.clone()))
-            .service(hello)
+            .service(book_handler::hello)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
     .await
 }
 
-#[get("/hello")]
-async fn hello(usecase: web::Data<BookUsecase<AdapterImpl>>) -> impl Responder {
-    usecase.get_book().await
+#[derive(Clone)]
+struct AdaptersImpl {
+    pub repo: BookRepositoryImpl,
+}
+
+impl Adapters for AdaptersImpl {
+    fn repository(&self) -> Box<dyn book_domain::repository::BookRepository> {
+        Box::new(self.repo.clone())
+    }
 }

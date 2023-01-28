@@ -1,20 +1,21 @@
-pub mod get_book;
-
 use book_domain::repository::BookRepository;
 
-#[derive(Clone, Debug)]
-pub struct BookUsecase<A> {
-    pub adapter: A,
+pub struct BookUsecase {
+    pub adapters: Box<dyn Adapters>,
 }
 
-impl<A: Adapter> BookUsecase<A> {
-    pub fn new(adapter: A) -> Self {
-        BookUsecase { adapter }
+impl BookUsecase {
+    pub fn new(adapters: impl Adapters + 'static) -> Self {
+        BookUsecase {
+            adapters: Box::new(adapters),
+        }
+    }
+
+    pub fn hello(&self) -> String {
+        self.adapters.repository().get()
     }
 }
 
-pub trait Adapter {
-    type A: BookRepository;
-
-    fn repository(&self) -> &Self::A;
+pub trait Adapters: Sync + Send {
+    fn repository(&self) -> Box<dyn BookRepository>;
 }

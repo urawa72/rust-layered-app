@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 book-usecase = { path = "../../book-usecase" }
+actix-web = "4.2.1"
