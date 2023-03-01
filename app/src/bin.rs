@@ -1,10 +1,9 @@
 use std::sync::Arc;
-
 use actix_web::{web, App, HttpServer};
 
-use book_app::config::Config;
-use book_database::{repository::BookRepositoryImpl, setup};
-use book_usecase::{Adapters, BookUsecase};
+use app::config::Config;
+use database::{repository::BookRepositoryImpl, setup};
+use usecase::{Adapters, BookUsecase};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -24,7 +23,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(usecase.clone()))
-            .service(book_handler::hello)
+            .service(rest::hello)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
@@ -37,7 +36,7 @@ struct AdaptersImpl {
 }
 
 impl Adapters for AdaptersImpl {
-    fn repository(&self) -> Box<dyn book_domain::repository::BookRepository> {
+    fn repository(&self) -> Box<dyn model::repository::BookRepository> {
         Box::new(self.repo.clone())
     }
 }

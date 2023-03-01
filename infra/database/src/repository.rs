@@ -1,4 +1,4 @@
-use book_domain::repository::BookRepository;
+use model::repository::BookRepository;
 
 use crate::Db;
 

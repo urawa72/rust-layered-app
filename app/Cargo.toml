@@ -1,0 +1,18 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "app"
+path = "src/bin.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+model = { path = "../domain/model" }
+usecase = { path = "../domain/usecase" }
+rest = { path = "../infra/rest" }
+database = { path = "../infra/database" }
+actix-web = "4.2.1"
+dotenv = "0.15.0"
